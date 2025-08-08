@@ -25,11 +25,28 @@ class SwitchState(rx.State):
     def toggle(self, value: bool):
         self.value = value
 
+def navbar() -> rx.Component:
+    return rx.heading(
+        "This is NavBar"
+    )
+
+def base_page(*args, hide_navbar = False) -> rx.Component:
+    return rx.container(
+        ### CANNOT DO THIS WAY
+        # if !hide_navbar:
+            # navbar()
+        rx.cond(
+            not hide_navbar,
+            navbar(),
+        ),
+        rx.color_mode.button(position="bottom-left"),
+        *args,
+        rx.logo(),
+    )
 
 def index() -> rx.Component:
     # Welcome Page (Index)
-    return rx.container(
-        rx.color_mode.button(position="bottom-left"),
+    return base_page(
         rx.vstack(
             rx.heading(State.heading, size="9"),
             rx.input(default_value=State.heading, on_change=State.handle_heading_input_change),
@@ -50,6 +67,7 @@ def index() -> rx.Component:
             justify="center",
             min_height="85vh",
         ),
+        hide_navbar=False,
     )
 
 
