@@ -7,6 +7,11 @@ from rxconfig import config
 
 class State(rx.State):
     """The app state."""
+    counter = 0
+
+    @rx.event
+    def inc(self):
+        self.counter += 1
 
 
 def index() -> rx.Component:
@@ -25,6 +30,7 @@ def index() -> rx.Component:
                 href="https://reflex.dev/docs/getting-started/introduction/",
                 is_external=True,
             ),
+            rx.button(State.counter, on_click=State.inc),
             spacing="5",
             justify="center",
             min_height="85vh",
